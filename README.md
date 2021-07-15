@@ -26,7 +26,7 @@ Pequeno script para escrever números por extenso
 *fonte wikipédia* [wiki/Long_and_short_scales](https://en.wikipedia.org/wiki/Long_and_short_scales)
 
 
-| BR US - Escala Curta | PT UK - Escala Longa |   | BR US - Short Scale  | PT UK - Long Scale    |
+| PT BR - Escala Curta | PT BR - Escala Longa |   | EN - Short Scale     | EN - Long Scale       |
 |----------------------|----------------------|---|----------------------|-----------------------|
 | mil                  | mil                  |   | thousand             | thousand              |
 | milhão               | milhão               |   | million              | million               |
