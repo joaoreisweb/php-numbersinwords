@@ -53,7 +53,6 @@ class NumbersInWords
     {
         $this->resultadoExtenso = "";
         $this->centavosExtenso = "";
-        $this->nS = "";
         $this->nSc = "";
         $this->nS = str_replace(',', '.', $n);
         $this->lang = strtoupper($lang);
@@ -68,7 +67,12 @@ class NumbersInWords
             $n_split = explode('.', $this->nS);
             $this->nS = strval($n_split[0]);
             $this->e = intval($this->nS);
-            $this->nSc = strval(substr($n_split[1], 0, 2 ));
+            if(isset($n_split[1])){
+                $this->nSc = strval(substr($n_split[1], 0, 2 ));
+            }else{
+                $this->centavos=false;
+            }
+            
         }
 
         $this->unidezcemCentavos = intval($this->nSc);
@@ -105,7 +109,7 @@ class NumbersInWords
                     //se a centena for menor que 100 ou seja de dois numeros
                     //e se forem valores inteiros 100 200 300 ... 900 usa o separador " e "
                     //e se não estiver na primeira ou na ultima centena
-                    if ($this->lang == "PT" ) {
+                    if ($this->lang == "PT" || $this->lang == "BR") {
                         if ($n >= 1 && $n < 100) {
                             $separador = " e ";
                             if ($i != $this->cNum - 1) {
@@ -140,19 +144,21 @@ class NumbersInWords
 
                 //verifica plural das palavras
                 //caso valor da centena n maior que 1
-                if ($n > 1 && ($this->cNum) - ($i + 1) > 1) {
-                    if ($this->escala == "curta" && $this->lang == "PT") {
+                $centenas_block = intval(($this->cNum) - ($i + 1));
+                if ($n > 1 && $centenas_block > 1) {
+                    if ($this->escala == "curta" &&  ($this->lang == "PT" || $this->lang == "BR")) {
                         //CURTA mudar de ão para ões
                         $length_val = strval($this->numMilharesCurtaArrPT[intval($this->cNum) - ($i + 1)]);
-                        $singularPlural = mb_substr($length_val, 0, -2) . "ões";
-                        
+                        $singularPlural = mb_substr($length_val, 0, strlen($length_val)-3) . "ões";
+
+                        //singularPlural = String(numMilharesCurtaArr[(cNum) - (i + 1)]).substr(0, numMilharesCurtaArr[(cNum) - (i + 1)].length - 2) + "ões";
                     }
 
-                    if ($this->escala == "longa" && $this->lang == "PT") {
+                    if ($this->escala == "longa" &&  ($this->lang == "PT" || $this->lang == "BR")) {
                         //LONGA mudar de ão para ões
-                        $length_val = strval($this->numMilharesLongaArrPT[intval($this->cNum) - ($i + 1)]);
+                        $length_val = $this->numMilharesLongaArrPT[intval($this->cNum) - ($i + 1)];
                         if (strval(mb_substr($length_val, -2, 2)) == "ão") {
-                            $singularPlural = mb_substr($length_val, 0, -2) . "ões";
+                            $singularPlural = mb_substr($length_val, 0, strlen($length_val)-3) . "ões";
                         } else {
                             $singularPlural = $length_val;
                         }
@@ -168,11 +174,11 @@ class NumbersInWords
                     }
                 } else {
                     //CURTA usar ão
-                    if ($this->escala == "curta" && $this->lang == "PT") {
+                    if ($this->escala == "curta" &&  ($this->lang == "PT" || $this->lang == "BR")) {
                         $singularPlural = $this->numMilharesCurtaArrPT[intval($this->cNum) - ($i + 1)];
                     }
                     //LONGA usar ão
-                    if ($this->escala == "longa" && $this->lang == "PT") {
+                    if ($this->escala == "longa" && ($this->lang == "PT" || $this->lang == "BR")) {
                         $singularPlural = $this->numMilharesLongaArrPT[intval($this->cNum) - ($i + 1)];
                     }
                     //CURTA 
@@ -181,12 +187,12 @@ class NumbersInWords
                     }
                     //LONGA 
                     if ($this->escala == "longa" && $this->lang == "EN") {
-                        $singularPlural = $this->numMilharesCurtaArrEN[intval($this->cNum) - ($i + 1)];
+                        $singularPlural = $this->numMilharesLongaArrEN[intval($this->cNum) - ($i + 1)];
                     }
                 }
 
                 //verifica se o número é diferente de 1
-                //verifica se o número ésta na casa dos milhares e começa por 1
+                //verifica se o número esta na casa dos milhares e começa por 1
                 if ($n == 1 && $this->e <= 1999 && $this->e > 1) {
                     $n = 0;
                     $espaco = " ";
@@ -196,15 +202,15 @@ class NumbersInWords
                         $separador = " one ";
                     }
                 }
-                if ($this->lang == "PT" ) {
-                    //milhares de milhao
+
+                //milhares de milhao
                     if ($n == 1 && (strlen($this->nS) == 10 || strlen($this->nS) == 16 || strlen($this->nS) == 22 || strlen($this->nS) == 28 || strlen($this->nS) == 34)) {
-                        $n = 0;
+                        $n = 1;
                     }
-                }
+
                 //escreve resultado na variavel
-                
                 $this->resultadoExtenso .= $separador . $this->centenasValor($n) . $espaco . $singularPlural;
+
             } else {
                 //se a ultima centena for zero acrescenta um espaço
                 if ($i == $this->cNum - 1) {
@@ -235,7 +241,7 @@ class NumbersInWords
             if ($this->e == 0) {
                 $this->resultadoExtenso = $this->dezenasUnidadesValor($this->unidezcemCentavos);
             } else {
-                if ($this->lang == "PT") {
+                if ($this->lang == "PT" || $this->lang == "BR") {
                     $this->centavosExtenso = " vírgula " . $this->dezenasUnidadesValor($this->unidezcemCentavos);
                 }
                 if ($this->lang == "EN" ) {
@@ -250,9 +256,9 @@ class NumbersInWords
 
         //escrever resultado
 
-        $this->valorextenso = $this->resultadoExtenso;
+        //$this->valorextenso = $this->resultadoExtenso;
 
-        return $this->valorextenso;
+        return $this->resultadoExtenso;
 
 
     }
