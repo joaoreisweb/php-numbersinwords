@@ -1,8 +1,10 @@
 <?php
 
+
+//include 'src/numbersinwords.php';
 use NumbersInWords\NumbersInWords;
 
-include 'src/numbersinwords.php';
+
 
 $number_convert = new NumbersInWords();
 
