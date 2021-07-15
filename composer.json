@@ -1,0 +1,14 @@
+{
+    "name": "joaoreisweb/numbers-in-words",
+    "description": "This library convert numbers into words in Portuguese and English. Short and long scale.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joao Reis",
+            "email": "web@joaoreis.pt"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
