@@ -1,4 +1,50 @@
 <?php
+///////////////////////////////////////////////////
+///////////////////////////////////////////////////
+//// NUMBERS IN WORDS
+//// Números por Extenso v.3.2 git
+////
+//// v.4 15.07.2021 php version -> major update
+//// v.3.2 15.06.2021 jquery version
+//// v.3.1 02.04.2020 jquery version
+//// v.3 02.04.2020
+//// v.2 29.05.2013
+//// v.1 11.04.2012
+////
+//// created by: João Reis
+//// joaoreis.pt
+////
+
+//// 1 - Numbers in words
+//// OPTIONS 
+//// @string number - string | number
+//// @string lang - PT | BR | EN
+//// @string scale - short | long
+////
+
+//// 2 - Money in words
+//// OPTIONS 
+//// @string number - string | number
+//// @string lang - PT | BR | EN
+//// @string coin - EUR | USD
+//// @string scale - short | long
+
+//// 3 - Format Number
+//// OPTIONS 
+//// @string number - string | number | only numbers
+//// @string sign - € | $ | any
+//// @int decimal_cases - EUR | USD
+//// @boolean decimal_space - true | false
+//// @string sign_side - right | left
+
+//// LANGUAGE
+//// PT - Portuguese Portugal
+//// BR - Portuguese Brasil
+//// EN - English
+
+////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
 namespace NumbersInWords;
 
@@ -18,7 +64,7 @@ class NumbersInWords
     private $numMilharesCurtaArrEN;
     private $numMilharesLongaArrEN;
     private $tipoNum;
-    
+
     private $centavos;
     private $e;
     private $lang;
@@ -49,18 +95,17 @@ class NumbersInWords
         $this->escala = 'curta'; /// curta longa | short long
         $this->e = 0;
         $this->centavos = false;
-
     }
 
     /**
-    * Numbers In Words - convert any number to words
-    * @param the parameters used by the method
-    *** String $n decimal number | string
-    *** String $lang // PT | BR | EN
-    *** String $escala // curta | longa
-    * @return the number in words
-    * @throws 
-    */
+     * Numbers In Words - convert any number to words
+     * @param the parameters used by the method
+     *** String $n decimal number | string
+     *** String $lang // PT | BR | EN
+     *** String $escala // curta | longa
+     * @return the number in words
+     * @throws 
+     */
     public function numbersInWords(string $n, string $lang = 'PT', string $escala = 'curta')
     {
         $this->resultadoExtenso = "";
@@ -70,23 +115,23 @@ class NumbersInWords
         $this->lang = strtoupper($lang);
         $this->escala = $escala;
         $this->e = floatval($this->nS);
-        $n_split =[];
+        $n_split = [];
 
         //verificar a existencia de centavos
-        if (is_numeric(floatval($this->nS)) ) {
+        if (is_numeric(floatval($this->nS))) {
             $this->centavos = true;
             $n_split = explode('.', $this->nS);
             $this->nS = strval($n_split[0]);
             $this->e = intval($this->nS);
-            if(isset($n_split[1])){
-                $this->nSc = strval(substr($n_split[1], 0, 2 ));
-            }else{
-                $this->centavos=false;
+            if (isset($n_split[1])) {
+                $this->nSc = strval(substr($n_split[1], 0, 2));
+            } else {
+                $this->centavos = false;
             }
         }
 
         $this->unidezcemCentavos = intval($this->nSc);
-        
+
         // conta quantas centenas existem
         /// 000 000 000 000 000 = 5
         /// 00 000 000 = 3
@@ -113,7 +158,7 @@ class NumbersInWords
             } else {
                 $n = intval(substr($this->nS, $r + (3 * ($i - 1)), 3));
             }
-             
+
             if ($n != 0) {
                 if ($i > 0) {
                     //se a centena for menor que 100 ou seja de dois numeros
@@ -159,7 +204,7 @@ class NumbersInWords
                     if ($this->escala == "curta" &&  ($this->lang == "PT" || $this->lang == "BR")) {
                         //CURTA mudar de ão para ões
                         $length_val = strval($this->numMilharesCurtaArrPT[intval($this->cNum) - ($i + 1)]);
-                        $singularPlural = mb_substr($length_val, 0, strlen($length_val)-3) . "ões";
+                        $singularPlural = mb_substr($length_val, 0, strlen($length_val) - 3) . "ões";
 
                         //singularPlural = String(numMilharesCurtaArr[(cNum) - (i + 1)]).substr(0, numMilharesCurtaArr[(cNum) - (i + 1)].length - 2) + "ões";
                     }
@@ -168,7 +213,7 @@ class NumbersInWords
                         //LONGA mudar de ão para ões
                         $length_val = $this->numMilharesLongaArrPT[intval($this->cNum) - ($i + 1)];
                         if (strval(mb_substr($length_val, -2, 2)) == "ão") {
-                            $singularPlural = mb_substr($length_val, 0, strlen($length_val)-3) . "ões";
+                            $singularPlural = mb_substr($length_val, 0, strlen($length_val) - 3) . "ões";
                         } else {
                             $singularPlural = $length_val;
                         }
@@ -207,20 +252,19 @@ class NumbersInWords
                     $n = 0;
                     $espaco = " ";
                     $separador = "";
-                    if ($this->lang == "EN" ) {
+                    if ($this->lang == "EN") {
                         // one thousand
                         $separador = " one ";
                     }
                 }
 
                 //milhares de milhao
-                    if ($n == 1 && (strlen($this->nS) == 10 || strlen($this->nS) == 16 || strlen($this->nS) == 22 || strlen($this->nS) == 28 || strlen($this->nS) == 34)) {
-                        $n = 1;
-                    }
+                if ($n == 1 && (strlen($this->nS) == 10 || strlen($this->nS) == 16 || strlen($this->nS) == 22 || strlen($this->nS) == 28 || strlen($this->nS) == 34)) {
+                    $n = 1;
+                }
 
                 //escreve resultado na variavel
                 $this->resultadoExtenso .= $separador . $this->centenasValor($n) . $espaco . $singularPlural;
-
             } else {
                 //se a ultima centena for zero acrescenta um espaço
                 if ($i == $this->cNum - 1) {
@@ -252,7 +296,7 @@ class NumbersInWords
                 if ($this->lang == "PT" || $this->lang == "BR") {
                     $this->centavosExtenso = " vírgula " . $this->dezenasUnidadesValor($this->unidezcemCentavos);
                 }
-                if ($this->lang == "EN" ) {
+                if ($this->lang == "EN") {
                     $this->centavosExtenso = " point " . $this->dezenasUnidadesValor($this->unidezcemCentavos);
                     //$this->centavosExtenso = " and " . $this->dezenasUnidadesValor($this->unidezcemCentavos);
                 }
@@ -264,20 +308,20 @@ class NumbersInWords
 
         //escrever resultado
         return $this->resultadoExtenso;
-
     }
 
     /**
-    * Money In Words - convert any number to words with coin description
-    * @param the parameters used by the method
-    *** String $n decimal number | string
-    *** String $lang // PT | BR | EN
-    *** String $coin // EUR | USD
-    *** String $escala // curta | longa
-    * @return the number in words
-    * @throws 
-    */
-    public function moneyInWords($valornumerico, $lang = "PT", $coin = "EUR", string $escala = 'curta') {
+     * Money In Words - convert any number to words with coin description
+     * @param the parameters used by the method
+     *** String $n decimal number | string
+     *** String $lang // PT | BR | EN
+     *** String $coin // EUR | USD
+     *** String $escala // curta | longa
+     * @return the number in words
+     * @throws 
+     */
+    public function moneyInWords($valornumerico, $lang = "PT", $coin = "EUR", string $escala = 'curta')
+    {
 
         $this->lang = $lang;
         $this->escala = $escala;
@@ -302,7 +346,6 @@ class NumbersInWords
             $nomeMoeda = "";
         } else if ($this->e == 1) {
             $nomeMoeda = array_key_exists('leftSingular', $tiposelected)  ? $tiposelected['leftSingular'] : "";
-
         } else {
             $nomeMoeda = array_key_exists('leftPlural', $tiposelected)  ? $tiposelected['leftPlural'] : "";
         }
@@ -324,15 +367,15 @@ class NumbersInWords
                 if ($this->lang == "PT" || $this->lang == "BR") {
                     $separadorDecimal = " e ";
                 }
-                if ($this->lang == "EN" ) {
+                if ($this->lang == "EN") {
                     $separadorDecimal = " and ";
                 }
             }
 
             if ($this->e == 0) {
-                $resultadoExtenso = $this->dezenasUnidadesValor($this->unidezcemCentavos) . $textCentimos ;
+                $resultadoExtenso = $this->dezenasUnidadesValor($this->unidezcemCentavos) . $textCentimos;
             } else {
-                $centavosExtenso = $separadorDecimal . $this->dezenasUnidadesValor($this->unidezcemCentavos) . $textCentimos ;
+                $centavosExtenso = $separadorDecimal . $this->dezenasUnidadesValor($this->unidezcemCentavos) . $textCentimos;
             }
         }
         //acrescentar moeda + centavos na variavel
@@ -341,25 +384,26 @@ class NumbersInWords
     }
 
     /**
-    * Format Number - format number with spaces or coin values '1 000 000 €' or '1 000 000,50 €' or '$ 1 000 000,50' or '$ 1000000,50'
-    * @param the parameters used by the method
-    *** String $n decimal number | string
-    *** String $sign any | € | $
-    *** Int $decimal_cases 2
-    *** Boolean $decimal_space true | false
-    *** $sign_side left | right
-    * @return the number in words
-    * @throws 
-    */
-    public function formatNumber($valor, $sign='', $decimal_cases=2, $decimal_space=true, $sign_side='right'){
-        $sign_left = ($sign!='' && $sign_side=='left')?$sign." ":"";
-        $sign_right = ($sign!='' && $sign_side=='right')?" ".$sign:"";
-        $n_split = explode(',', str_replace('.',',',strval($valor)));
-        $n_left = ($decimal_space)?strrev(implode(' ', str_split(strrev($n_split[0]), 3))):$n_split[0];
+     * Format Number - format number with spaces or coin values '1 000 000 €' or '1 000 000,50 €' or '$ 1 000 000,50' or '$ 1000000,50'
+     * @param the parameters used by the method
+     *** String $n decimal number | string
+     *** String $sign any | € | $
+     *** Int $decimal_cases 2
+     *** Boolean $decimal_space true | false
+     *** $sign_side left | right
+     * @return the number in words
+     * @throws 
+     */
+    public function formatNumber($valor, $sign = '', $decimal_cases = 2, $decimal_space = true, $sign_side = 'right')
+    {
+        $sign_left = ($sign != '' && $sign_side == 'left') ? $sign . " " : "";
+        $sign_right = ($sign != '' && $sign_side == 'right') ? " " . $sign : "";
+        $n_split = explode(',', str_replace('.', ',', strval($valor)));
+        $n_left = ($decimal_space) ? strrev(implode(' ', str_split(strrev($n_split[0]), 3))) : $n_split[0];
         $n_right = "";
-        if(isset($n_split[1]) && $decimal_cases>0){
+        if (isset($n_split[1]) && $decimal_cases > 0) {
             $n_right = substr($n_split[1], 0, $decimal_cases);
-            $n_right = ($n_right!='' && $decimal_space)?','.implode(' ', str_split($n_right, 3)):'';
+            $n_right = ($n_right != '' && $decimal_space) ? ',' . implode(' ', str_split($n_right, 3)) : '';
         }
         return  $sign_left . $n_left . $n_right . $sign_right;
     }
@@ -370,22 +414,23 @@ class NumbersInWords
 
     //////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////centenas
-    private function centenasValor($v) {
+    private function centenasValor($v)
+    {
         $centenasValor = $valorCentenas = "";
         if ($v != 0) {
             //00X
-            $unidade = intval(substr($v,-1, 1));
+            $unidade = intval(substr($v, -1, 1));
             //0X0
-            $dezena = intval(substr($v,-2, 1));
+            $dezena = intval(substr($v, -2, 1));
             //0XX
-            $dezenas = intval(substr($v,-2, 2));
+            $dezenas = intval(substr($v, -2, 2));
             //X00
-            $centena = intval(substr($v,-3, 1));
+            $centena = intval(substr($v, -3, 1));
             //centenas
             if ($this->lang == "PT" || $this->lang == "BR") {
                 $valorCentenas = strval($this->numCentenasArrPT[$centena - 1]);
             }
-            if ($this->lang == "EN" ) {
+            if ($this->lang == "EN") {
                 $valorCentenas = strval($this->numCentenasArrEN[$centena - 1]);
             }
 
@@ -396,7 +441,7 @@ class NumbersInWords
                 if ($this->lang == "PT" || $this->lang == "BR") {
                     $centenasValor = "cem";
                 }
-                if ($this->lang == "EN" ) {
+                if ($this->lang == "EN") {
                     $centenasValor = "one hundred";
                 }
             }
@@ -405,7 +450,7 @@ class NumbersInWords
                 if ($this->lang == "PT" || $this->lang == "BR") {
                     $centenasValor = "cento" . " e " . $this->dezenasUnidadesValor($dezenas);
                 }
-                if ($this->lang == "EN" ) {
+                if ($this->lang == "EN") {
                     $centenasValor = "one hundred" . " and " . $this->dezenasUnidadesValor($dezenas);
                 }
             }
@@ -413,11 +458,11 @@ class NumbersInWords
                 // X00
                 if ($centena != 0 && $dezena == 0 && $unidade == 0) {
                     $centenasValor = $valorCentenas;
-                } else {// 0X0  00X  XX0  0XX  X0X  XXX 
+                } else { // 0X0  00X  XX0  0XX  X0X  XXX 
                     if ($this->lang == "PT" || $this->lang == "BR") {
                         $centenasValor = $valorCentenas . " e " . $this->dezenasUnidadesValor($dezenas);
                     }
-                    if ($this->lang == "EN" ) {
+                    if ($this->lang == "EN") {
                         $centenasValor = $valorCentenas . " and " . $this->dezenasUnidadesValor($dezenas);
                     }
                 }
@@ -428,11 +473,12 @@ class NumbersInWords
 
     //////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////unidades + dezenas
-    private function dezenasUnidadesValor($uni) {
+    private function dezenasUnidadesValor($uni)
+    {
         //0X
-        $primeiroNum = substr($uni,-1, 1);
+        $primeiroNum = substr($uni, -1, 1);
         //X0
-        $segundoNum = substr($uni,-2, 1);
+        $segundoNum = substr($uni, -2, 1);
         $dezenasUnidadesValor = "";
         //unidades e dezenas
         if ($uni > 0 && $uni < 20) {
@@ -442,11 +488,9 @@ class NumbersInWords
             if ($this->lang == "BR") {
                 $dezenasUnidadesValor = strval($this->numUnidadesArrBR[$uni]);
             }
-            if ($this->lang == "EN" ) {
+            if ($this->lang == "EN") {
                 $dezenasUnidadesValor = strval($this->numUnidadesArrEN[$uni]);
             }
-
-
         }
         if ($uni >= 20 && $uni <= 99) {
             // X0
@@ -457,7 +501,6 @@ class NumbersInWords
                 if ($this->lang == "EN") {
                     $dezenasUnidadesValor = strval($this->numDezenasArrEN[$segundoNum - 1]);
                 }
-
             }
             // XX
             if ($primeiroNum != 0) {
