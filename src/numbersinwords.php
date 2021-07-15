@@ -18,6 +18,10 @@ class NumbersInWords
     private $numMilharesCurtaArrEN;
     private $numMilharesLongaArrEN;
     private $tipoNum;
+    
+    private $centavos;
+    private $e;
+    private $lang;
     private $escala;
 
 
@@ -43,12 +47,20 @@ class NumbersInWords
 
         $this->lang = "PT"; /// PT EN
         $this->escala = 'curta'; /// curta longa | short long
-        $this->nomeMoeda = "euro";
         $this->e = 0;
         $this->centavos = false;
 
     }
 
+    /**
+    * Numbers In Words - convert any number to words
+    * @param the parameters used by the method
+    *** String $n decimal number | string
+    *** String $lang // PT | BR | EN
+    *** String $escala // curta | longa
+    * @return the number in words
+    * @throws 
+    */
     public function numbersInWords(string $n, string $lang = 'PT', string $escala = 'curta')
     {
         $this->resultadoExtenso = "";
@@ -62,7 +74,6 @@ class NumbersInWords
 
         //verificar a existencia de centavos
         if (is_numeric(floatval($this->nS)) ) {
-            
             $this->centavos = true;
             $n_split = explode('.', $this->nS);
             $this->nS = strval($n_split[0]);
@@ -72,7 +83,6 @@ class NumbersInWords
             }else{
                 $this->centavos=false;
             }
-            
         }
 
         $this->unidezcemCentavos = intval($this->nSc);
@@ -224,16 +234,14 @@ class NumbersInWords
 
         //limpar texto quando não existirem valores
         //ou o valor for igual a zero
-
         if ($this->e == 0 || strlen($this->nS) == 0) {
-            $this->nomeMoeda = "";
+            //$this->nomeMoeda = "";
             $this->resultadoExtenso = "";
             $this->centavosExtenso = "";
         }
         $this->extensoNumeros = $this->resultadoExtenso;
 
         //centavos
-
         if ($this->centavos) {
             if (strlen($this->nSc) == 1) {
                 $this->unidezcemCentavos = $this->unidezcemCentavos * 10;
@@ -250,68 +258,115 @@ class NumbersInWords
                 }
             }
         }
-        //extensoCentavos=centavosExtenso;
+
         //acrescentar moeda + centavos na variavel
         $this->resultadoExtenso .= $this->centavosExtenso;
 
         //escrever resultado
-
-        //$this->valorextenso = $this->resultadoExtenso;
-
         return $this->resultadoExtenso;
 
+    }
 
+    /**
+    * Money In Words - convert any number to words with coin description
+    * @param the parameters used by the method
+    *** String $n decimal number | string
+    *** String $lang // PT | BR | EN
+    *** String $coin // EUR | USD
+    *** String $escala // curta | longa
+    * @return the number in words
+    * @throws 
+    */
+    public function moneyInWords($valornumerico, $lang = "PT", $coin = "EUR", string $escala = 'curta') {
+
+        $this->lang = $lang;
+        $this->escala = $escala;
+
+        $resultadoExtenso = $centavosExtenso = $nomeMoeda = $separadorDecimal = $textCentimos = $unidezcemCentavos = "";
+
+
+        $this->numbersinwords($valornumerico, $this->lang, $this->escala);
+        $resultadoExtenso = $this->extensoNumeros;
+
+
+        $tiposelected = array();
+
+        foreach ($this->tipoNum as $item) {
+            if ($item['id'] == $coin) {
+                $tiposelected = $item;
+            }
+        }
+
+        //definir plural da moeda
+        if ($this->e == 0) {
+            $nomeMoeda = "";
+        } else if ($this->e == 1) {
+            $nomeMoeda = array_key_exists('leftSingular', $tiposelected)  ? $tiposelected['leftSingular'] : "";
+
+        } else {
+            $nomeMoeda = array_key_exists('leftPlural', $tiposelected)  ? $tiposelected['leftPlural'] : "";
+        }
+
+
+        if ($this->centavos) {
+            $n = intval($this->nSc);
+            if ($coin != "") {
+                if ($this->unidezcemCentavos == '01') {
+                    $textCentimos = array_key_exists('rightSingular', $tiposelected)  ? " " . $tiposelected['rightSingular'] : "";
+                } else {
+                    $textCentimos = array_key_exists('rightPlural', $tiposelected)  ? " " . $tiposelected['rightPlural'] : "";
+                }
+            }
+            if ($n == 0) {
+                $textCentimos = "";
+            }
+            if ($n > 0) {
+                if ($this->lang == "PT" || $this->lang == "BR") {
+                    $separadorDecimal = " e ";
+                }
+                if ($this->lang == "EN" ) {
+                    $separadorDecimal = " and ";
+                }
+            }
+
+            if ($this->e == 0) {
+                $resultadoExtenso = $this->dezenasUnidadesValor($this->unidezcemCentavos) . $textCentimos ;
+            } else {
+                $centavosExtenso = $separadorDecimal . $this->dezenasUnidadesValor($this->unidezcemCentavos) . $textCentimos ;
+            }
+        }
+        //acrescentar moeda + centavos na variavel
+        $resultadoExtenso .= $nomeMoeda . $centavosExtenso;
+        return $resultadoExtenso;
+    }
+
+    /**
+    * Format Number - format number with spaces or coin values '1 000 000 €' or '1 000 000,50 €' or '$ 1 000 000,50' or '$ 1000000,50'
+    * @param the parameters used by the method
+    *** String $n decimal number | string
+    *** String $sign any | € | $
+    *** Int $decimal_cases 2
+    *** Boolean $decimal_space true | false
+    *** $sign_side left | right
+    * @return the number in words
+    * @throws 
+    */
+    public function formatNumber($valor, $sign='', $decimal_cases=2, $decimal_space=true, $sign_side='right'){
+        $sign_left = ($sign!='' && $sign_side=='left')?$sign." ":"";
+        $sign_right = ($sign!='' && $sign_side=='right')?" ".$sign:"";
+        $n_split = explode(',', str_replace('.',',',strval($valor)));
+        $n_left = ($decimal_space)?strrev(implode(' ', str_split(strrev($n_split[0]), 3))):$n_split[0];
+        $n_right = "";
+        if(isset($n_split[1]) && $decimal_cases>0){
+            $n_right = substr($n_split[1], 0, $decimal_cases);
+            $n_right = ($n_right!='' && $decimal_space)?','.implode(' ', str_split($n_right, 3)):'';
+        }
+        return  $sign_left . $n_left . $n_right . $sign_right;
     }
 
     //////////////////////////////////////////////////////////////////////////
-    //FUNCTIONS
+    // FUNCTIONS
     //////////////////////////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////unidades + dezenas
-    private function dezenasUnidadesValor($uni) {
-        //0X
-        $primeiroNum = substr($uni,-1, 1);
-        //X0
-        $segundoNum = substr($uni,-2, 1);
-        $dezenasUnidadesValor = "";
-        //unidades e dezenas
-        if ($uni > 0 && $uni < 20) {
-            if ($this->lang == "PT") {
-                $dezenasUnidadesValor = strval($this->numUnidadesArrPT[$uni]);
-            }
-            if ($this->lang == "BR") {
-                $dezenasUnidadesValor = strval($this->numUnidadesArrBR[$uni]);
-            }
-            if ($this->lang == "EN" ) {
-                $dezenasUnidadesValor = strval($this->numUnidadesArrEN[$uni]);
-            }
-
-
-        }
-        if ($uni >= 20 && $uni <= 99) {
-            // X0
-            if ($primeiroNum == 0) {
-                if ($this->lang == "PT" || $this->lang == "BR") {
-                    $dezenasUnidadesValor = strval($this->numDezenasArrPT[$segundoNum - 1]);
-                }
-                if ($this->lang == "EN") {
-                    $dezenasUnidadesValor = strval($this->numDezenasArrEN[$segundoNum - 1]);
-                }
-
-            }
-            // XX
-            if ($primeiroNum != 0) {
-                if ($this->lang == "PT" || $this->lang == "BR") {
-                    $dezenasUnidadesValor = strval($this->numDezenasArrPT[$segundoNum - 1]) . " e " . strval($this->numUnidadesArrPT[$primeiroNum]);
-                }
-                if ($this->lang == "EN") {
-                    $dezenasUnidadesValor = strval($this->numDezenasArrEN[$segundoNum - 1]) . " " . strval($this->numUnidadesArrEN[$primeiroNum]);
-                }
-            }
-        }
-        return $dezenasUnidadesValor;
-    }
 
     //////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////centenas
@@ -371,17 +426,53 @@ class NumbersInWords
         return $centenasValor;
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////unidades + dezenas
+    private function dezenasUnidadesValor($uni) {
+        //0X
+        $primeiroNum = substr($uni,-1, 1);
+        //X0
+        $segundoNum = substr($uni,-2, 1);
+        $dezenasUnidadesValor = "";
+        //unidades e dezenas
+        if ($uni > 0 && $uni < 20) {
+            if ($this->lang == "PT") {
+                $dezenasUnidadesValor = strval($this->numUnidadesArrPT[$uni]);
+            }
+            if ($this->lang == "BR") {
+                $dezenasUnidadesValor = strval($this->numUnidadesArrBR[$uni]);
+            }
+            if ($this->lang == "EN" ) {
+                $dezenasUnidadesValor = strval($this->numUnidadesArrEN[$uni]);
+            }
 
-    public function formatNumber($valor, $sign='', $decimal_cases=2, $decimal_space=true, $sign_side='right'){
-        $sign_left = ($sign!='' && $sign_side=='left')?$sign." ":"";
-        $sign_right = ($sign!='' && $sign_side=='right')?" ".$sign:"";
-        $n_split = explode(',', str_replace('.',',',strval($valor)));
-        $n_left = ($decimal_space)?strrev(implode(' ', str_split(strrev($n_split[0]), 3))):$n_split[0];
-        $n_right = "";
-        if(isset($n_split[1]) && $decimal_cases>0){
-            $n_right = substr($n_split[1], 0, $decimal_cases);
-            $n_right = ($n_right!='' && $decimal_space)?','.implode(' ', str_split($n_right, 3)):'';
+
         }
-        return  $sign_left . $n_left . $n_right . $sign_right;
+        if ($uni >= 20 && $uni <= 99) {
+            // X0
+            if ($primeiroNum == 0) {
+                if ($this->lang == "PT" || $this->lang == "BR") {
+                    $dezenasUnidadesValor = strval($this->numDezenasArrPT[$segundoNum - 1]);
+                }
+                if ($this->lang == "EN") {
+                    $dezenasUnidadesValor = strval($this->numDezenasArrEN[$segundoNum - 1]);
+                }
+
+            }
+            // XX
+            if ($primeiroNum != 0) {
+                if ($this->lang == "PT" || $this->lang == "BR") {
+                    $dezenasUnidadesValor = strval($this->numDezenasArrPT[$segundoNum - 1]) . " e " . strval($this->numUnidadesArrPT[$primeiroNum]);
+                }
+                if ($this->lang == "EN") {
+                    $dezenasUnidadesValor = strval($this->numDezenasArrEN[$segundoNum - 1]) . " " . strval($this->numUnidadesArrEN[$primeiroNum]);
+                }
+            }
+        }
+        return $dezenasUnidadesValor;
     }
+
+    //////////////////////////////////////////////////////////////////////////
+    // END FUNCTIONS
+    //////////////////////////////////////////////////////////////////////////
 }
