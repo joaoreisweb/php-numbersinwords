@@ -1,7 +1,7 @@
 # Numbers in Words
 Script to write numbers in words
 
-# INSTALL with composer
+## INSTALL with composer
 ```bash
 composer require joaoreisweb/numbers-in-words
 ```
