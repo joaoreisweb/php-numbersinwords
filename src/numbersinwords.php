@@ -7,10 +7,10 @@ class NumbersInWords
 
     private $numUnidadesArrPT;
     private $numUnidadesArrBR;
-    private $numDezenasArr;
-    private $numCentenasArr;
-    private $numMilharesCurtaArr;
-    private $numMilharesLongaArr;
+    private $numDezenasArrPT;
+    private $numCentenasArrPT;
+    private $numMilharesCurtaArrPT;
+    private $numMilharesLongaArrPT;
 
     private $numUnidadesArrEN;
     private $numDezenasArrEN;
@@ -26,12 +26,12 @@ class NumbersInWords
         // ------- Properties -------
         $this->numUnidadesArrPT = array("zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "catorze", "quinze", "dezasseis", "dezassete", "dezoito", "dezanove");
         $this->numUnidadesArrBR = array("zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove");
-        $this->numDezenasArr = array("dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa", "cem");
-        $this->numCentenasArr = array("cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos", "mil");
-        $this->numMilharesCurtaArr = array("", "mil", "milhão", "bilião", "trilião", "quatrilhão", "quintilião", "sextilião", "septilião", "octilião", "nonilião", "decilião", "undecilião", "duodecilião", "tredecilião", "quatridecilião", "quindecilião", "sexdecilião", "septendecilião", "octodecilião", "novendecilião", "vigintilião", "unvigintilião", "duovigintilião", "trivigintilião", "quatrivigintilião", "quinquavigintilião");
-        $this->numMilharesLongaArr = array("", "mil", "milhão", "mil milhões", "bilião", "mil biliões", "trilião", "mil triliões", "quatrilião", "mil quatriliões", "quintilião", "mil quintiliões", "sextilião", "mil sextiliões", "septilião", "mil septiliões", "octilião", "mil octiliões", "nonilião", "mil noniliões", "decilião", "mil deciliões", "undecilião", "mil undeciliões", "duodecilião", "mil duodeciliões", "tredecilião", "mil tredeciliões", "quatridecilião", "mil quatrideciliões", "quindecilião", "mil quindeciliões", "sexdecilião", "mil sexdeciliões", "septendecilião", "mil septendeciliões", "octodecilião", "mil octodeciliões", "novendecilião", "mil novendeciliões", "vigintilião");
+        $this->numDezenasArrPT = array("dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa", "cem");
+        $this->numCentenasArrPT = array("cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos", "mil");
+        $this->numMilharesCurtaArrPT = array("", "mil", "milhão", "bilião", "trilião", "quatrilhão", "quintilião", "sextilião", "septilião", "octilião", "nonilião", "decilião", "undecilião", "duodecilião", "tredecilião", "quatridecilião", "quindecilião", "sexdecilião", "septendecilião", "octodecilião", "novendecilião", "vigintilião", "unvigintilião", "duovigintilião", "trivigintilião", "quatrivigintilião", "quinquavigintilião");
+        $this->numMilharesLongaArrPT = array("", "mil", "milhão", "mil milhões", "bilião", "mil biliões", "trilião", "mil triliões", "quatrilião", "mil quatriliões", "quintilião", "mil quintiliões", "sextilião", "mil sextiliões", "septilião", "mil septiliões", "octilião", "mil octiliões", "nonilião", "mil noniliões", "decilião", "mil deciliões", "undecilião", "mil undeciliões", "duodecilião", "mil duodeciliões", "tredecilião", "mil tredeciliões", "quatridecilião", "mil quatrideciliões", "quindecilião", "mil quindeciliões", "sexdecilião", "mil sexdeciliões", "septendecilião", "mil septendeciliões", "octodecilião", "mil octodeciliões", "novendecilião", "mil novendeciliões", "vigintilião");
 
-        $this->numUnidadesArrEN = array("nought", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen");
+        $this->numUnidadesArrEN = array("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen");
         $this->numDezenasArrEN = array("ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety", "one hundred");
         $this->numCentenasArrEN = array("one hundred", "two hundred", "three hundred", "four hundred", "five hundred", "six hundred", "seven hundred", "eight hundred", "nine hundred", "one hundred");
         $this->numMilharesCurtaArrEN = array("", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion", "unvigintillion", "duovigintillion", "trevigintillion", "quattuorvigintillion", "quinvigintillion", "sexvigintillion", "septenvigintillion", "octovigintillion", "novemvigintillion", "trigintillion");
@@ -62,15 +62,13 @@ class NumbersInWords
         $n_split =[];
 
         //verificar a existencia de centavos
-        echo "<br>1 ".$this->nS;
         if (is_numeric(floatval($this->nS)) ) {
             
             $this->centavos = true;
             $n_split = explode('.', $this->nS);
             $this->nS = strval($n_split[0]);
             $this->e = intval($this->nS);
-            $this->nSc = strval(substr($n_split[1], 0, 2));
-            echo "<br>2 ".$this->nS;
+            $this->nSc = strval(substr($n_split[1], 0, 2 ));
         }
 
         $this->unidezcemCentavos = intval($this->nSc);
@@ -145,14 +143,14 @@ class NumbersInWords
                 if ($n > 1 && ($this->cNum) - ($i + 1) > 1) {
                     if ($this->escala == "curta" && $this->lang == "PT") {
                         //CURTA mudar de ão para ões
-                        $length_val = strval($this->numMilharesCurtaArr[intval($this->cNum) - ($i + 1)]);
+                        $length_val = strval($this->numMilharesCurtaArrPT[intval($this->cNum) - ($i + 1)]);
                         $singularPlural = mb_substr($length_val, 0, -2) . "ões";
                         
                     }
 
                     if ($this->escala == "longa" && $this->lang == "PT") {
                         //LONGA mudar de ão para ões
-                        $length_val = strval($this->numMilharesLongaArr[intval($this->cNum) - ($i + 1)]);
+                        $length_val = strval($this->numMilharesLongaArrPT[intval($this->cNum) - ($i + 1)]);
                         if (strval(mb_substr($length_val, -2, 2)) == "ão") {
                             $singularPlural = mb_substr($length_val, 0, -2) . "ões";
                         } else {
@@ -171,11 +169,11 @@ class NumbersInWords
                 } else {
                     //CURTA usar ão
                     if ($this->escala == "curta" && $this->lang == "PT") {
-                        $singularPlural = $this->numMilharesCurtaArr[intval($this->cNum) - ($i + 1)];
+                        $singularPlural = $this->numMilharesCurtaArrPT[intval($this->cNum) - ($i + 1)];
                     }
                     //LONGA usar ão
                     if ($this->escala == "longa" && $this->lang == "PT") {
-                        $singularPlural = $this->numMilharesLongaArr[intval($this->cNum) - ($i + 1)];
+                        $singularPlural = $this->numMilharesLongaArrPT[intval($this->cNum) - ($i + 1)];
                     }
                     //CURTA 
                     if ($this->escala == "curta" && $this->lang == "EN") {
@@ -289,7 +287,7 @@ class NumbersInWords
             // X0
             if ($primeiroNum == 0) {
                 if ($this->lang == "PT" || $this->lang == "BR") {
-                    $dezenasUnidadesValor = strval($this->numDezenasArr[$segundoNum - 1]);
+                    $dezenasUnidadesValor = strval($this->numDezenasArrPT[$segundoNum - 1]);
                 }
                 if ($this->lang == "EN") {
                     $dezenasUnidadesValor = strval($this->numDezenasArrEN[$segundoNum - 1]);
@@ -299,7 +297,7 @@ class NumbersInWords
             // XX
             if ($primeiroNum != 0) {
                 if ($this->lang == "PT" || $this->lang == "BR") {
-                    $dezenasUnidadesValor = strval($this->numDezenasArr[$segundoNum - 1]) . " e " . strval($this->numUnidadesArrPT[$primeiroNum]);
+                    $dezenasUnidadesValor = strval($this->numDezenasArrPT[$segundoNum - 1]) . " e " . strval($this->numUnidadesArrPT[$primeiroNum]);
                 }
                 if ($this->lang == "EN") {
                     $dezenasUnidadesValor = strval($this->numDezenasArrEN[$segundoNum - 1]) . " " . strval($this->numUnidadesArrEN[$primeiroNum]);
@@ -324,7 +322,7 @@ class NumbersInWords
             $centena = intval(substr($v,-3, 1));
             //centenas
             if ($this->lang == "PT" || $this->lang == "BR") {
-                $valorCentenas = strval($this->numCentenasArr[$centena - 1]);
+                $valorCentenas = strval($this->numCentenasArrPT[$centena - 1]);
             }
             if ($this->lang == "EN" ) {
                 $valorCentenas = strval($this->numCentenasArrEN[$centena - 1]);
@@ -368,9 +366,16 @@ class NumbersInWords
     }
 
 
-    public function formatNumber($valor, $sign=''){
-        $sign_temp = ($sign!='')?" ".$sign:"";
-        $v = floatval($valor);
-        return number_format($v,2,',',' ') . $sign_temp;
+    public function formatNumber($valor, $sign='', $decimal_cases=2, $decimal_space=true, $sign_side='right'){
+        $sign_left = ($sign!='' && $sign_side=='left')?$sign." ":"";
+        $sign_right = ($sign!='' && $sign_side=='right')?" ".$sign:"";
+        $n_split = explode(',', str_replace('.',',',strval($valor)));
+        $n_left = ($decimal_space)?strrev(implode(' ', str_split(strrev($n_split[0]), 3))):$n_split[0];
+        $n_right = "";
+        if(isset($n_split[1]) && $decimal_cases>0){
+            $n_right = substr($n_split[1], 0, $decimal_cases);
+            $n_right = ($n_right!='' && $decimal_space)?','.implode(' ', str_split($n_right, 3)):'';
+        }
+        return  $sign_left . $n_left . $n_right . $sign_right;
     }
 }
