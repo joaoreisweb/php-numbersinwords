@@ -1,6 +1,6 @@
 {
     "name": "joaoreisweb/numbers-in-words",
-    "description": "This library convert numbers into words in Portuguese and English. Short and long scale.",
+    "description": "This library convert numbers into words in Portuguese and English. Short and long scale. ",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,12 +10,10 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {
-        
-    },
+    "require": {},
     "autoload": {
-        "psr-4": { 
-            "NumberInWorsds\\": "src/" 
+        "psr-4": {
+            "joaoreisweb\\":"src/"
         }
     }
 }
