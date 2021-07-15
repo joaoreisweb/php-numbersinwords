@@ -1,6 +1,11 @@
 # Numbers in Words
 Script to write numbers in words
 
+# INSTALL with composer
+```bash
+composer require joaoreisweb/numbers-in-words
+```
+
 Pequeno script para escrever números por extenso
 
 
