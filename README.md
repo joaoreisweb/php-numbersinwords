@@ -6,6 +6,77 @@ Script to write numbers in words
 composer require joaoreisweb/numbers-in-words
 ```
 
+## USAGE
+```php
+<?php
+
+use joaoreisweb\NumbersInWords;
+
+require_once realpath("vendor/autoload.php");
+
+$number_convert = new NumbersInWords();
+
+$valor = '1114.55';
+echo "<br><br>numbers PT - ".$number_convert->formatNumber($valor) ."<br>";
+print_r( $number_convert->numbersInWords($valor,'PT'));
+
+$valor = '1114.55';
+echo "<br><br>numbers BR - ".$number_convert->formatNumber($valor) ."<br>";
+print_r( $number_convert->numbersInWords($valor,'BR'));
+
+$valor = '1116.55';
+echo "<br><br>numbers EN - ".$number_convert->formatNumber($valor) ."<br>";
+print_r( $number_convert->numbersInWords($valor,'EN'));
+
+echo '<br><br><hr>';
+
+$valor = '2000.55';
+echo "<br><br>money BR EUR - ".$number_convert->formatNumber($valor,'€') ."<br>";
+print_r( $number_convert->moneyInWords($valor,'BR','EUR'));
+
+$valor = '2000.55';
+echo "<br><br>money EN USD - ".$number_convert->formatNumber($valor,'€', 2, ' ','left') ."<br>";
+print_r( $number_convert->moneyInWords($valor,'EN','USD'));
+
+echo '<br><br><hr>';
+
+$valor = '1114.55';
+echo "<br><br>money PT EUR - ".$number_convert->formatNumber($valor,'€') ."<br>";
+print_r( $number_convert->moneyInWords($valor,'PT','EUR'));
+
+$valor = '1114.55';
+echo "<br><br>money BR EUR - ".$number_convert->formatNumber($valor,'€') ."<br>";
+print_r( $number_convert->moneyInWords($valor,'BR','EUR'));
+```
+## RESULTS
+```bash
+numbers PT - 1 114,55
+mil, cento e catorze vírgula cinquenta e cinco
+
+numbers BR - 1 114,55
+mil, cento e quatorze vírgula cinquenta e cinco
+
+numbers EN - 1 116,55
+one thousand, one hundred and sixteen point fifty five
+
+---
+
+money BR EUR - 2 000,55 €
+dois mil euros e cinquenta e cinco cêntimos
+
+money EN USD - € 2 000,55
+two thousand dollars and fifty five cents
+
+---
+
+money PT EUR - 1 114,55 €
+mil, cento e catorze euros e cinquenta e cinco cêntimos
+
+money BR EUR - 1 114,55 €
+mil, cento e quatorze euros e cinquenta e cinco cêntimos
+```
+
+
 Pequeno script para escrever números por extenso
 
 
