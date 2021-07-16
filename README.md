@@ -35,7 +35,7 @@ echo "<br><br>money BR EUR - ".$number_convert->formatNumber($valor,'€') ."<br
 echo $number_convert->moneyInWords($valor,'BR','EUR');
 
 $valor = '2000.55';
-echo "<br><br>money EN USD - ".$number_convert->formatNumber($valor,'€', 2, ' ','left') ."<br>";
+echo "<br><br>money EN USD - ".$number_convert->formatNumber($valor,'$', 2, ' ','left') ."<br>";
 echo $number_convert->moneyInWords($valor,'EN','USD');
 
 echo '<br><br><hr>';
@@ -64,7 +64,7 @@ one thousand, one hundred and sixteen point fifty five
 money BR EUR - 2 000,55 €
 dois mil euros e cinquenta e cinco cêntimos
 
-money EN USD - € 2 000,55
+money EN USD - $ 2 000,55
 two thousand dollars and fifty five cents
 
 ---
