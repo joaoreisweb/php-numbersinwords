@@ -12,9 +12,9 @@ composer require joaoreisweb/numbers-in-words
 ```php
 <?php
 
-use joaoreisweb\NumbersInWords;
-
 require_once realpath("vendor/autoload.php");
+
+use joaoreisweb\NumbersInWords;
 
 $number_convert = new NumbersInWords();
 
