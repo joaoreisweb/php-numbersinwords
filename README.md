@@ -1,6 +1,8 @@
 # Numbers in Words
 Script to write numbers in words
 
+Pequeno script para escrever números por extenso
+
 ## INSTALL with composer
 ```bash
 composer require joaoreisweb/numbers-in-words
@@ -77,7 +79,7 @@ mil, cento e quatorze euros e cinquenta e cinco cêntimos
 ```
 
 
-Pequeno script para escrever números por extenso
+
 
 
 > **Short scale**
