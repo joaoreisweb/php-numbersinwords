@@ -76,6 +76,15 @@ mil, cento e catorze euros e cinquenta e cinco cêntimos
 
 money BR EUR - 1 114,55 €
 mil, cento e quatorze euros e cinquenta e cinco cêntimos
+
+---
+
+numbers PT - 1 231 231 234,55
+um bilião, duzentos e trinta e um milhões, duzentos e trinta e um mil, duzentos e trinta e quatro vírgula cinquenta e cinco
+
+numbers EN - 1 231 231 234,55
+one thousand million, two hundred and thirty one millions, two hundred and thirty one thousand, two hundred and thirty four point fifty five
+
 ```
 
 

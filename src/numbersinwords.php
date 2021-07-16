@@ -261,7 +261,8 @@ class NumbersInWords
                 }
 
                 //milhares de milhao
-                if ($n == 1 && (strlen($this->nS) == 10 || strlen($this->nS) == 16 || strlen($this->nS) == 22 || strlen($this->nS) == 28 || strlen($this->nS) == 34)) {
+                //if ($n == 1 && (strlen($this->nS) == 10 || strlen($this->nS) == 16 || strlen($this->nS) == 22 || strlen($this->nS) == 28 || strlen($this->nS) == 34)) {
+                if ($n ==1 && ((strlen($this->nS)-10)%6)==0){
                     $n = 1;
                 }
 
