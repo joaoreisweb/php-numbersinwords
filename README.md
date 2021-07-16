@@ -79,10 +79,16 @@ mil, cento e quatorze euros e cinquenta e cinco cêntimos
 
 ---
 
-numbers PT - 1 231 231 234,55
+numbers PT curta - 1 231 231 234,55
 um bilião, duzentos e trinta e um milhões, duzentos e trinta e um mil, duzentos e trinta e quatro vírgula cinquenta e cinco
 
-numbers EN - 1 231 231 234,55
+numbers PT longa - 1 231 231 234,55
+um mil milhões, duzentos e trinta e um milhões, duzentos e trinta e um mil, duzentos e trinta e quatro vírgula cinquenta e cinco
+
+numbers EN curta - 1 231 231 234,55
+one billion, two hundred and thirty one millions, two hundred and thirty one thousand, two hundred and thirty four point fifty five
+
+numbers EN longa - 1 231 231 234,55
 one thousand million, two hundred and thirty one millions, two hundred and thirty one thousand, two hundred and thirty four point fifty five
 
 ```
