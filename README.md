@@ -49,6 +49,22 @@ echo $number_convert->moneyInWords($valor,'PT','EUR');
 $valor = '1114.55';
 echo "<br><br>money BR EUR - ".$number_convert->formatNumber($valor,'€') ."<br>";
 echo $number_convert->moneyInWords($valor,'BR','EUR');
+
+echo '<br><br><hr>';
+
+$valor = '1231231234.55';
+echo "<br><br>numbers PT curta - ".$number_convert->formatNumber($valor) ."<br>";
+print_r( $number_convert->numbersInWords($valor,'PT','curta'));
+
+echo "<br><br>numbers PT longa - ".$number_convert->formatNumber($valor) ."<br>";
+print_r( $number_convert->numbersInWords($valor,'PT','longa'));
+
+echo "<br><br><br>numbers EN curta - ".$number_convert->formatNumber($valor) ."<br>";
+print_r( $number_convert->numbersInWords($valor,'EN','curta'));
+
+echo "<br><br>numbers EN longa - ".$number_convert->formatNumber($valor) ."<br>";
+print_r( $number_convert->numbersInWords($valor,'EN','longa'));
+
 ```
 ## RESULTS
 ```bash
