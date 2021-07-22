@@ -2,7 +2,7 @@
     "name": "joaoreisweb/numbers-in-words",
     "description": "This library convert numbers into words in Portuguese and English. Short and long scale.",
     "type": "library",
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "keywords": ["number", "numbers", "in", "to", "words", "converter", "string", "money", "currency", "short-scale", "number-transformer", "currency-transformer", "numbers-to-text"],
     "authors": [{
         "name": "Joao Reis",
