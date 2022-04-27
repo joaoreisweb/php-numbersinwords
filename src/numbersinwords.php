@@ -250,7 +250,7 @@ class NumbersInWords
 
                 //verifica se o número é diferente de 1
                 //verifica se o número esta na casa dos milhares e começa por 1
-                if ($n == 1 && $this->e <= 1999 && $this->e > 1) {
+                if ($n == 1 && $this->e <= 1999 && $this->e > 1 && $centenas_block == 1) {
                     $n = 0;
                     $espaco = " ";
                     $separador = "";
